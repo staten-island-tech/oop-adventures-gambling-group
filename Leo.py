@@ -1,7 +1,8 @@
 import random
+import time
 
 class MC():
-    def __init__(self, name, klass, health, defense, strength, mana, speed, money, level, inv, exp):
+    def __init__(self, name, klass, health, defense, strength, mana, speed, money, level, inv, exp, attacktype):
         self.klass = klass
         self.name = name
         self.health = health
@@ -13,6 +14,7 @@ class MC():
         self.level = level
         self.inv = inv
         self.exp = exp
+        self.attacktype = attacktype
 
     def stats(self):
         print("Your stats:")
@@ -36,6 +38,45 @@ class MC():
                 Lvtime += 1
         if Lvtime >= 1:
             print(f"You leveled up {Lvtime} times!")
+
+    def gamble(self):
+        YP = 0
+        DP = 0
+        Deck = [
+        "AS", "2S", "3S", "4S", "5S", "6S", "7S", "8S", "9S", "10S", "JS", "QS", "KS",
+        "AH", "2H", "3H", "4H", "5H", "6H", "7H", "8H", "9H", "10H", "JH", "QH", "KH",
+        "AD", "2D", "3D", "4D", "5D", "6D", "7D", "8D", "9D", "10D", "JD", "QD", "KD",
+        "AC", "2C", "3C", "4C", "5C", "6C", "7C", "8C", "9C", "10C", "JC", "QC", "KC"]
+        random.shuffle(Deck)
+        print ("Shuffling...")
+        time.sleep(0.5)
+        Your_Hand = [Deck[0], Deck[1]]
+        Dealer_Hand = [Deck[2]]
+        for i in range(3):
+            del Deck[0]
+        print(f"Your hand: {Your_Hand}")
+        print(f"Dealer's hand: {Dealer_Hand}")
+        for i in range(2):
+            if (Your_Hand[i-1])[0] in "1JQK":
+                YP += 10
+            elif (Your_Hand[i-1])[0] == "A":
+                if YP+11 > 21:
+                    YP += 1
+                else:
+                    YP += 11
+            elif (Your_Hand[i])[0] in "23456789":
+                YP += (Your_Hand[i])[0]
+            print((Your_Hand[i])[0])
+        print (YP)
+        
+
+
+"""   (Your_Hand[i])[0]:
+                YP += (Your_Hand[i])[0]
+        print(YP)
+ """
+
+
         
         
 class enemy():
@@ -139,11 +180,12 @@ if klass == "Tank":
     mn = 1
     spd =0.5
     weapon = "Huge Old Hammer"
+    attacktype = "Big bop"
 print(f"Okay, your class is {klass}")
 Name = input("Choose your name")
 print(f"Okay, your name is {Name}")
-
-you = MC(Name, klass, 100, 10, 10, 10, 10, 0, 1, [], 0)
+you = MC(Name, klass, 100, 10, 10, 10, 10, 0, 1, [], 0, "attacktypeph")
+you.gamble()
 you.stats()
 print("You wake up to an empty house, your wife and kids have been stolen by the corrupt government")
 print("Your main mission: Save your wife and kids by adventuring out and confronting Bart, the king")
