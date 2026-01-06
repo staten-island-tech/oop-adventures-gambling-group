@@ -40,8 +40,11 @@ class MC():
             print(f"You leveled up {Lvtime} times!")
 
     def gamble(self):
+        win = False
+        a = 0
         YP = 0
         DP = 0
+        done = False
         Deck = [
         "AS", "2S", "3S", "4S", "5S", "6S", "7S", "8S", "9S", "10S", "JS", "QS", "KS",
         "AH", "2H", "3H", "4H", "5H", "6H", "7H", "8H", "9H", "10H", "JH", "QH", "KH",
@@ -52,29 +55,93 @@ class MC():
         time.sleep(0.5)
         Your_Hand = [Deck[0], Deck[1]]
         Dealer_Hand = [Deck[2]]
-        for i in range(3):
+        for i in range(4):
             del Deck[0]
         print(f"Your hand: {Your_Hand}")
         print(f"Dealer's hand: {Dealer_Hand}")
-        for i in range(2):
-            if (Your_Hand[i-1])[0] in "1JQK":
+
+        for cards in range(2):
+            card=Your_Hand[cards][:-1]
+            if card in ["10","J","Q","K"]:
                 YP += 10
-            elif (Your_Hand[i-1])[0] == "A":
+            elif card == "A":
                 if YP+11 > 21:
                     YP += 1
                 else:
                     YP += 11
-            elif (Your_Hand[i])[0] in "23456789":
-                YP += (Your_Hand[i])[0]
-            print((Your_Hand[i])[0])
-        print (YP)
+                    a += 1
+            elif card in "23456789":
+                YP += int(card)
         
+        Dcard=Dealer_Hand[0][:-1]
+        if Dcard in ["10","J","Q","K"]:
+            DP += 10
+        elif Dcard == "A":
+            if DP+11 > 21:
+                YP += 1
+            else:
+                DP += 11
+        elif Dcard in "23456789":
+            DP += int(Dcard)
+    
+        print(f"Your points: {YP}")
+        print(f"Dealer's points: {DP}")
+    
+        while done == False:
+            Valid = False
+            while Valid == False:
+                Choice = input("Do you want to hit or stand? (h/s)")
+                if Choice.lower() not in ["h","s"]:
+                    print("Invalid input, (h/s)")
+                else:
+                    Valid = True
+            if Choice == "h":
+                Draw = Deck[0]
+                del Deck[0]
+                card=Draw[:-1]
+                if card in ["10","J","Q","K"]:
+                    YP += 10
+                elif card == "A":
+                    if YP+11 > 21:
+                        YP += 1
+                    else:
+                        YP += 11
+                elif card in "23456789":
+                    YP += int(card)
+                Your_Hand.append(Draw)
+                print(f"You drew a {Draw}")
+                if YP > 21:
+                    done = True
+                    print(f"Your points: {YP}... YOU BUST!")
+                elif YP < 21:
+                    print(f"Your points: {YP}")
+                else:
+                    print("Your points: 21")
+                    done = True
+            else:
+                done = True
+                print(f"Okay, you have {YP} points")
+        while DP < YP:
+            DDraw = Deck[0]
+            del Deck[0]
+            card=DDraw[:-1]
+            if card in ["10","J","Q","K"]:
+                DP += 10
+            elif card == "A":
+                if DP+11 > 21:
+                    DP += 1
+                else:
+                    DP += 11
+            elif card in "23456789":
+                DP += int(card)
+            Your_Hand.append(Draw)
+            print(f"You drew a {Draw}")
+        
+            
+                    
+                
 
 
-"""   (Your_Hand[i])[0]:
-                YP += (Your_Hand[i])[0]
-        print(YP)
- """
 
 
         
@@ -186,7 +253,7 @@ Name = input("Choose your name")
 print(f"Okay, your name is {Name}")
 you = MC(Name, klass, 100, 10, 10, 10, 10, 0, 1, [], 0, "attacktypeph")
 you.gamble()
-you.stats()
+""" you.stats()
 print("You wake up to an empty house, your wife and kids have been stolen by the corrupt government")
 print("Your main mission: Save your wife and kids by adventuring out and confronting Bart, the king")
 print(f"Now, you go to your friend's home, and they give you a {weapon} to help you on this journey")
@@ -205,7 +272,7 @@ while CC == False:
         print("Invalid Option!")
 
 
-
+ """
 
 
 
