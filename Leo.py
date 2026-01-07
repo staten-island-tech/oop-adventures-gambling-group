@@ -39,72 +39,50 @@ class MC():
         if Lvtime >= 1:
             print(f"You leveled up {Lvtime} times!")
 
-    def gamble(self, gamble):
-        win = False
-        a = 0
-        YP = 0
-        DP = 0
-        done = False
-        Deck = [
-        "AS", "2S", "3S", "4S", "5S", "6S", "7S", "8S", "9S", "10S", "JS", "QS", "KS",
-        "AH", "2H", "3H", "4H", "5H", "6H", "7H", "8H", "9H", "10H", "JH", "QH", "KH",
-        "AD", "2D", "3D", "4D", "5D", "6D", "7D", "8D", "9D", "10D", "JD", "QD", "KD",
-        "AC", "2C", "3C", "4C", "5C", "6C", "7C", "8C", "9C", "10C", "JC", "QC", "KC"]
-        for i in range(3):
-            print ("Shuffling..")
-            time.sleep(0.25)
-            random.shuffle(Deck)
-            print ("Shuffling...")
-            time.sleep(0.25)
-            random.shuffle(Deck)
-
-        time.sleep(0.25)
-        Your_Hand = [Deck[0], Deck[1]]
-        Dealer_Hand = [Deck[2]]
-        for i in range(4):
-            del Deck[0]
-        print(f"Your hand: {Your_Hand}")
-        print(f"Dealer's hand: {Dealer_Hand}")
-
-        for cards in range(2):
-            card=Your_Hand[cards][:-1]
-            if card in ["10","J","Q","K"]:
-                YP += 10
-            elif card == "A":
-                if YP+11 > 21:
-                    YP += 1
+    def gamble(self):
+        re = True
+        while re == True:
+            re == False
+            CI = False
+            while CI == False:
+                gamble = input("How much money do you want to bet?")
+                if not gamble.isdigit():
+                    print("Invalid input! Input how much you want to bet.")
                 else:
-                    YP += 11
-                    a += 1
-            elif card in "23456789":
-                YP += int(card)
-        
-        Dcard=Dealer_Hand[0][:-1]
-        if Dcard in ["10","J","Q","K"]:
-            DP += 10
-        elif Dcard == "A":
-            if DP+11 > 21:
-                YP += 1
-            else:
-                DP += 11
-        elif Dcard in "23456789":
-            DP += int(Dcard)
-    
-        print(f"Your points: {YP}")
-        print(f"Dealer's points: {DP}")
-    
-        while done == False:
-            Valid = False
-            while Valid == False:
-                Choice = input("Do you want to hit or stand? (h/s)")
-                if Choice.lower() not in ["h","s"]:
-                    print("Invalid input, (h/s)")
-                else:
-                    Valid = True
-            if Choice == "h":
-                Draw = Deck[0]
+                    gamble = int(gamble)
+                    if gamble > self.money or gamble <= 0:
+                        print(f"Invalid amount! You have ${self.money}!")
+                    else:
+                        print(f"Okay, your bet is ${gamble}.")
+                        CI = True
+            win = False
+            a = 0
+            YP = 0
+            DP = 0
+            done = False
+            Deck = [
+            "AS", "2S", "3S", "4S", "5S", "6S", "7S", "8S", "9S", "10S", "JS", "QS", "KS",
+            "AH", "2H", "3H", "4H", "5H", "6H", "7H", "8H", "9H", "10H", "JH", "QH", "KH",
+            "AD", "2D", "3D", "4D", "5D", "6D", "7D", "8D", "9D", "10D", "JD", "QD", "KD",
+            "AC", "2C", "3C", "4C", "5C", "6C", "7C", "8C", "9C", "10C", "JC", "QC", "KC"]
+            for i in range(3):
+                print ("Shuffling..")
+                time.sleep(0.25)
+                random.shuffle(Deck)
+                print ("Shuffling...")
+                time.sleep(0.25)
+                random.shuffle(Deck)
+
+            time.sleep(0.25)
+            Your_Hand = [Deck[0], Deck[1]]
+            Dealer_Hand = [Deck[2]]
+            for i in range(4):
                 del Deck[0]
-                card=Draw[:-1]
+            print(f"Your hand: {Your_Hand}")
+            print(f"Dealer's hand: {Dealer_Hand}")
+
+            for cards in range(2):
+                card=Your_Hand[cards][:-1]
                 if card in ["10","J","Q","K"]:
                     YP += 10
                 elif card == "A":
@@ -112,52 +90,107 @@ class MC():
                         YP += 1
                     else:
                         YP += 11
+                        a += 1
                 elif card in "23456789":
                     YP += int(card)
-                Your_Hand.append(Draw)
-                print(f"You drew a {Draw}")
-                if YP > 21:
-                    done = True
-                    print(f"Your points: {YP}... YOU BUST!")
-                elif YP < 21:
-                    print(f"Your points: {YP}")
-                else:
-                    print("Your points: 21")
-                    done = True
-            else:
-                done = True
-                print(f"Okay, you have {YP} points")
-        while YP+1 > DP and YP < 21:
-            DDraw = Deck[0]
-            del Deck[0]
-            card=DDraw[:-1]
-            if card in ["10","J","Q","K"]:
+            
+            Dcard=Dealer_Hand[0][:-1]
+            if Dcard in ["10","J","Q","K"]:
                 DP += 10
-            elif card == "A":
+            elif Dcard == "A":
                 if DP+11 > 21:
-                    DP += 1
+                    YP += 1
                 else:
                     DP += 11
-            elif card in "23456789":
-                DP += int(card)
-            Your_Hand.append(DDraw)
-            print(f"The Dealer drew a {DDraw}")
+            elif Dcard in "23456789":
+                DP += int(Dcard)
+        
+            print(f"Your points: {YP}")
+            print(f"Dealer's points: {DP}")
+        
+            while done == False:
+                Valid = False
+                while Valid == False:
+                    Choice = input("Do you want to hit or stand? (h/s)")
+                    if Choice.lower() not in ["h","s"]:
+                        print("Invalid input, (h/s)")
+                    else:
+                        Valid = True
+                if Choice == "h":
+                    Draw = Deck[0]
+                    del Deck[0]
+                    card=Draw[:-1]
+                    if card in ["10","J","Q","K"]:
+                        YP += 10
+                    elif card == "A":
+                        if YP+11 > 21:
+                            YP += 1
+                        else:
+                            YP += 11
+                    elif card in "23456789":
+                        YP += int(card)
+                    Your_Hand.append(Draw)
+                    print(f"You drew a {Draw}")
+                    if YP > 21:
+                        done = True
+                        print(f"Your points: {YP}... YOU BUST!")
+                    elif YP < 21:
+                        print(f"Your points: {YP}")
+                    else:
+                        print("Your points: 21")
+                        done = True
+                else:
+                    done = True
+                    print(f"Okay, you have {YP} points")
+            while YP > DP and YP < 21:
+                DDraw = Deck[0]
+                del Deck[0]
+                card=DDraw[:-1]
+                if card in ["10","J","Q","K"]:
+                    DP += 10
+                elif card == "A":
+                    if DP+11 > 21:
+                        DP += 1
+                    else:
+                        DP += 11
+                elif card in "23456789":
+                    DP += int(card)
+                Your_Hand.append(DDraw)
+                print(f"The Dealer drew a {DDraw}")
+                time.sleep(1)
+            if done == False:
+                print(f"The Dealer has {DP} points")
             time.sleep(1)
-        print(f"The Dealer has {DP} points")
-        if DP > 21:
-            print("The dealer busts, you WIN!!!")
-            win = True
-        elif YP > DP:
-            print("YOU WIN!!!")
-            win = True
-        elif 22 > DP > YP:
-            print("YOU LOST!!! DEALER WINS!!!")
-        if win == True:
-            self.money += gamble
-        else:
-            self.money -= gamble
-        
-        
+            if DP > 21:
+                print(f"The dealer busts, you WIN ${gamble}!!!")
+                win = True
+            elif 21 > YP > DP:
+                time.sleep(1)
+                print("YOU WIN!!!")
+                win = True
+            elif 22 > DP > YP:
+                time.sleep(1)
+                print("YOU LOST!!! DEALER WINS!!!")
+            elif DP == YP:
+                time.sleep(1)
+                print("PUSH!!! YOU TIE WITH THE DEALER!!!")
+            if win == True:
+                self.money += gamble
+            else:
+                self.money -= gamble
+            print(f"You now have ${self.money}.")
+
+            ag = False
+            while ag == False:
+                again = input("Do you wanna go again? (y/n)")
+                if again.lower() not in ["y","n"]:
+                    print("Invalid input, (y/n)")
+                else:
+                    ag = True
+            if again == "y":
+                re = True
+            else:
+                re = False
             
                     
                 
@@ -272,8 +305,8 @@ if klass == "Tank":
 print(f"Okay, your class is {klass}")
 Name = input("Choose your name")
 print(f"Okay, your name is {Name}")
-you = MC(Name, klass, 100, 10, 10, 10, 10, 0, 1, [], 0, "attacktypeph")
-you.gamble(100)
+you = MC(Name, klass, 100, 10, 10, 10, 10, 1000, 1, [], 0, "attacktypeph")
+you.gamble()
 """ you.stats()
 print("You wake up to an empty house, your wife and kids have been stolen by the corrupt government")
 print("Your main mission: Save your wife and kids by adventuring out and confronting Bart, the king")
