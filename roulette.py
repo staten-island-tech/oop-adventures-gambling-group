@@ -3,6 +3,16 @@ import time
 class Roulette:
     def __init__(self, balance):
         self.balance = balance
+    def home_page(self):
+        intro = input(f"""Welcome to Roulette! Your balance is currently ${self.balance}. Choose what you want to play(1,2,etc.):
+                        1. Single number bet
+                        2. Double number bet""")
+        if intro == "1":
+            self.single_number()
+        elif intro == "2":
+            self.double_number()
+        else:
+            print("Invalid option, choose one of the following:")
     def single_number(self):
         again = True
         while again == True:
@@ -17,7 +27,7 @@ class Roulette:
                     ]
             again2 = True
             while again2 == True:
-                bet = input("How much do you want to bet?")
+                bet = input("How much do you want to bet? ")
                 if not bet.isdigit():
                     print("Error. Invalid input, must be an integer. Try again")
                     again2 = True
@@ -30,7 +40,7 @@ class Roulette:
                         again2 = False
             again3 = True
             while again3 == True:
-                gamble = input("Choose a number")
+                gamble = input("Choose a number: ")
                 if not gamble.isdigit():
                     print("Error. Invalid input, must be an integer. Try again")
                     again3 = True
@@ -42,14 +52,15 @@ class Roulette:
                     else:
                         again3 = False
             spins = random.randint(111,148)
-            raterate = 1.05
+            raterate = 1.07
             rate = 1.01
             x = 0.07
             for i in range(spins):
                 x *= rate
                 print(wheel[i % 37])
                 time.sleep(x)
-            
+                if i >= spins - 4:
+                    x += 0.5
             number = wheel[(spins % 37) + 1]       
             if gamble == int(number[:-1]):
                 self.balance += bet * 35
@@ -57,12 +68,100 @@ class Roulette:
             else:
                 print(f"Unfortunately you lost ${bet}")
                 self.balance -= bet
-            again_ask = input(f"Your balance is now ${self.balance}, do you want to play again?")
-            if again_ask.lower() == "yes":
-                again = True
+            again4 = True
+            while again4 == True:
+                again_ask = input(f"Your balance is now ${self.balance}, do you want to play again?")
+                if again_ask.lower() == "yes" or again_ask.lower() == "yeah":
+                    again = True
+                    again4 = False
+                elif again_ask.lower() == "no":
+                    again = False
+                    again4 = False
+                else:
+                    print("Invalid input. (Yes/No)")
+                    again4 = True
+
+
+    def double_number(self):
+        again = True
+        while again == True:
+            wheel = [
+                    "0G",
+                    "1R", "2B", "3R", "4B", "5R", "6B",
+                    "7R", "8B", "9R", "10B", "11B", "12R",
+                    "13B", "14R", "15B", "16R", "17B", "18R",
+                    "19R", "20B", "21R", "22B", "23R", "24B",
+                    "25R", "26B", "27R", "28B", "29B", "30R",
+                    "31B", "32R", "33B", "34R", "35B", "36R"
+                    ]
+            again2 = True
+            while again2 == True:
+                bet = input("How much do you want to bet? ")
+                if not bet.isdigit():
+                    print("Error. Invalid input, must be an integer. Try again")
+                    again2 = True
+                else:
+                    bet = int(bet)
+                    if bet > self.balance or bet < 1:
+                        print("Invalid bet amount")
+                        again2 = True
+                    else:
+                        again2 = False
+            again3 = True
+            while again3 == True:
+                gamble = input("Choose your first number: ")
+                if not gamble.isdigit():
+                    print("Error. Invalid input, must be an integer. Try again")
+                    again3 = True
+                else:
+                    gamble = int(gamble)
+                    if gamble < 0 or gamble > 36:
+                        print("Invalid number. Try again, 0-36.")
+                        again3 = True
+                    else:
+                        again3 = False
+                gamble2 = input("Choose your second number: ")
+                if not gamble.isdigit():
+                    print("Error. Invalid input, must be an integer. Try again")
+                    again3 = True
+                else:
+                    gamble = int(gamble)
+                    if gamble < 0 or gamble > 36:
+                        print("Invalid number. Try again, 0-36.")
+                        again3 = True
+                    else:
+                        again3 = False
+            spins = random.randint(111,148)
+            raterate = 1.07
+            rate = 1.01
+            x = 0.07
+            for i in range(spins):
+                x *= rate
+                print(wheel[i % 37])
+                time.sleep(x)
+                if i >= spins - 4:
+                    x += 0.5
+            number = wheel[(spins % 37) + 1]       
+            if gamble == int(number[:-1]) or gamble2 == int(number[:-1]):
+                self.balance += bet * 17
+                print(f"Congrats! You bet ${bet} and won ${bet * 17}")
             else:
-                again = False
-game = Roulette(100)
+                print(f"Unfortunately you lost ${bet}")
+                self.balance -= bet
+            again4 = True
+            while again4 == True:
+                again_ask = input(f"Your balance is now ${self.balance}, do you want to play again?")
+                if again_ask.lower() == "yes" or again_ask.lower() == "yeah":
+                    again = True
+                    again4 = False
+                elif again_ask.lower() == "no":
+                    again = False
+                    again4 = False
+                else:
+                    print("Invalid input. (Yes/No)")
+                    again4 = True
+        
+game = Roulette(10000)
 game.single_number()            
 
             
