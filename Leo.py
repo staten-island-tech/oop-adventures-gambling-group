@@ -39,7 +39,7 @@ class MC():
         if Lvtime >= 1:
             print(f"You leveled up {Lvtime} times!")
 
-    def gamble(self):
+    def gamble(self, gamble):
         win = False
         a = 0
         YP = 0
@@ -50,9 +50,15 @@ class MC():
         "AH", "2H", "3H", "4H", "5H", "6H", "7H", "8H", "9H", "10H", "JH", "QH", "KH",
         "AD", "2D", "3D", "4D", "5D", "6D", "7D", "8D", "9D", "10D", "JD", "QD", "KD",
         "AC", "2C", "3C", "4C", "5C", "6C", "7C", "8C", "9C", "10C", "JC", "QC", "KC"]
-        random.shuffle(Deck)
-        print ("Shuffling...")
-        time.sleep(0.5)
+        for i in range(3):
+            print ("Shuffling..")
+            time.sleep(0.25)
+            random.shuffle(Deck)
+            print ("Shuffling...")
+            time.sleep(0.25)
+            random.shuffle(Deck)
+
+        time.sleep(0.25)
         Your_Hand = [Deck[0], Deck[1]]
         Dealer_Hand = [Deck[2]]
         for i in range(4):
@@ -121,7 +127,7 @@ class MC():
             else:
                 done = True
                 print(f"Okay, you have {YP} points")
-        while DP < YP:
+        while YP+1 > DP and YP < 21:
             DDraw = Deck[0]
             del Deck[0]
             card=DDraw[:-1]
@@ -134,8 +140,23 @@ class MC():
                     DP += 11
             elif card in "23456789":
                 DP += int(card)
-            Your_Hand.append(Draw)
-            print(f"You drew a {Draw}")
+            Your_Hand.append(DDraw)
+            print(f"The Dealer drew a {DDraw}")
+            time.sleep(1)
+        print(f"The Dealer has {DP} points")
+        if DP > 21:
+            print("The dealer busts, you WIN!!!")
+            win = True
+        elif YP > DP:
+            print("YOU WIN!!!")
+            win = True
+        elif 22 > DP > YP:
+            print("YOU LOST!!! DEALER WINS!!!")
+        if win == True:
+            self.money += gamble
+        else:
+            self.money -= gamble
+        
         
             
                     
@@ -252,7 +273,7 @@ print(f"Okay, your class is {klass}")
 Name = input("Choose your name")
 print(f"Okay, your name is {Name}")
 you = MC(Name, klass, 100, 10, 10, 10, 10, 0, 1, [], 0, "attacktypeph")
-you.gamble()
+you.gamble(100)
 """ you.stats()
 print("You wake up to an empty house, your wife and kids have been stolen by the corrupt government")
 print("Your main mission: Save your wife and kids by adventuring out and confronting Bart, the king")
