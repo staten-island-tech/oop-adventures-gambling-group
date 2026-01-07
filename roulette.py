@@ -15,34 +15,50 @@ class Roulette:
                     "25R", "26B", "27R", "28B", "29B", "30R",
                     "31B", "32R", "33B", "34R", "35B", "36R"
                     ]
-            bet = input("How much do you want to bet?")
-            if not bet.isdigit():
-                print("Error. Invalid number. Try again")
-                again = True
-            bet = int(bet)
-            if bet > self.balance or bet < 1:
-                    print("Invalid bet amount")
-                    again = True
-
-            gamble = input("Choose a number")
+            again2 = True
+            while again2 == True:
+                bet = input("How much do you want to bet?")
+                if not bet.isdigit():
+                    print("Error. Invalid input, must be an integer. Try again")
+                    again2 = True
+                else:
+                    bet = int(bet)
+                    if bet > self.balance or bet < 1:
+                        print("Invalid bet amount")
+                        again2 = True
+                    else:
+                        again2 = False
+            again3 = True
+            while again3 == True:
+                gamble = input("Choose a number")
+                if not gamble.isdigit():
+                    print("Error. Invalid input, must be an integer. Try again")
+                    again3 = True
+                else:
+                    gamble = int(gamble)
+                    if gamble < 0 or gamble > 36:
+                        print("Invalid number. Try again, 0-36.")
+                        again3 = True
+                    else:
+                        again3 = False
             spins = random.randint(111,148)
             raterate = 1.05
-            rate = 1.05
+            rate = 1.01
             x = 0.07
             for i in range(spins):
+                x *= rate
                 print(wheel[i % 37])
                 time.sleep(x)
-                x *= rate
-                rate * raterate
-            number = wheel[spins % 37]       
-            if gamble in number[:-1]:
+            
+            number = wheel[(spins % 37) + 1]       
+            if gamble == int(number[:-1]):
                 self.balance += bet * 35
                 print(f"Congrats! You bet ${bet} and won ${bet * 35}")
             else:
                 print(f"Unfortunately you lost ${bet}")
                 self.balance -= bet
-            again = input(f"Your balance is now ${self.balance}, do you want to play again?")
-            if again.lower() == "yes":
+            again_ask = input(f"Your balance is now ${self.balance}, do you want to play again?")
+            if again_ask.lower() == "yes":
                 again = True
             else:
                 again = False
