@@ -4,6 +4,7 @@ class Roulette:
     def __init__(self, balance):
         self.balance = balance
     def single_number(self):
+        again = True
         while again == True:
             wheel = [
                     "0G",
@@ -15,27 +16,38 @@ class Roulette:
                     "31B", "32R", "33B", "34R", "35B", "36R"
                     ]
             bet = input("How much do you want to bet?")
-            if bet > self.balance:
-                print("You don't have enough money in your balance as of right now.")
-                again == True
+            if not bet.isdigit():
+                print("Error. Invalid number. Try again")
+                again = True
+            bet = int(bet)
+            if bet > self.balance or bet < 1:
+                    print("Invalid bet amount")
+                    again = True
+
             gamble = input("Choose a number")
-            spins = random.randint(72,96)
+            spins = random.randint(111,148)
+            raterate = 1.05
+            rate = 1.05
+            x = 0.07
             for i in range(spins):
                 print(wheel[i % 37])
-                time.sleep(0.05)
+                time.sleep(x)
+                x *= rate
+                rate * raterate
             number = wheel[spins % 37]       
-            if gamble == number:
-                balance += bet * 35
+            if gamble in number[:-1]:
+                self.balance += bet * 35
                 print(f"Congrats! You bet ${bet} and won ${bet * 35}")
             else:
                 print(f"Unfortunately you lost ${bet}")
-                balance -= bet
-            again = input(f"Your balance is now {self.balance}, do you want to play again?")
+                self.balance -= bet
+            again = input(f"Your balance is now ${self.balance}, do you want to play again?")
             if again.lower() == "yes":
-                again == True
+                again = True
             else:
-                again == False
-            
+                again = False
+game = Roulette(100)
+game.single_number()            
 
             
         
