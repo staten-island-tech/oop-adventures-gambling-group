@@ -20,6 +20,21 @@ class Roulette:
             else:
                 print("Invalid option, you must choose a number.")
                 again5 = True
+    
+    def broke(self):
+        if self.balance <= 1:
+            print("""Your balance is $0. You will be redirected to the home page.
+             
+             
+             
+             
+             
+             
+             
+             
+            """)
+            time.sleep(1.5)
+            self.home_page()
     def single_number(self):
         wheel = [
                 "0G",
@@ -51,7 +66,7 @@ class Roulette:
                 continue
             break
 
-        spins = random.randint(111,148)
+        spins = random.randint(74,111)
         raterate = 1.00008
         rate = 1.01
         x = 0.07
@@ -60,6 +75,8 @@ class Roulette:
             rate *= raterate
             print(wheel[i % 37])
             time.sleep(x)
+            if i >= spins - 6:
+                raterate *=1.08
         number = wheel[(spins - 1) % 37]       
         if gamble == int(number[:-1]):
             self.balance += bet * 35
@@ -67,18 +84,20 @@ class Roulette:
         else:
             print(f"Unfortunately you lost ${bet}")
             self.balance -= bet
+        self.broke()
         while True:
-            again_ask = input(f"Your balance is now ${self.balance}, do you want to play again?")
-            if again_ask.lower() == "yes" or again_ask.lower() == "yeah":
+            again_ask = input(f"""Your balance is now ${self.balance}, choose an option:
+1. Play again
+2. Play a different game
+""")
+            if again_ask == 1:
                 break
-            elif again_ask.lower() == "no":
+            elif again_ask.lower() == "2":
                 self.home_page()
                 return
             else:
-                print("Invalid input. (Yes/No)")
+                print("Invalid option. (1/2)")
                 continue
-
-
     def double_number(self):
         wheel = [
                 "0G",
@@ -131,15 +150,19 @@ class Roulette:
         else:
             print(f"Unfortunately you lost ${bet}")
             self.balance -= bet
+        self.broke()
         while True:
-            again_ask = input(f"Your balance is now ${self.balance}, do you want to play again?")
-            if again_ask.lower() == "yes" or again_ask.lower() == "yeah":
+            again_ask = input(f"""Your balance is now ${self.balance}, choose an option:
+1. Play again
+2. Play a different game
+""")
+            if again_ask == 1:
                 break
-            elif again_ask.lower() == "no":
+            elif again_ask.lower() == "2":
                 self.home_page()
                 return
             else:
-                print("Invalid input. (Yes/No)")
+                print("Invalid option. (1/2)")
                 continue
         
 game = Roulette(10000)            
