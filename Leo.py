@@ -30,14 +30,18 @@ class MC():
         print(f"Inventory ~ {self.inv}")
 
     def lvup(self):
+        Req = 100
         Lvtime = 0
-        while self.exp >= 100:
-            if self.exp > 100:
+        while self.exp >= Req:
+            if self.exp > Req:
                 self.level += 1
-                self.exp -= 100
+                self.exp -= Req
                 Lvtime += 1
+                Req += 5
         if Lvtime >= 1:
             print(f"You leveled up {Lvtime} times!")
+            print(f"You're now level {self.level}")
+        print(f"Exp: {self.exp}/{Req}")
 
     def gamble(self):
         re = True
@@ -56,6 +60,7 @@ class MC():
                         print(f"Okay, your bet is ${gamble}.")
                         CI = True
             win = False
+            Tie = False
             a = 0
             YP = 0
             DP = 0
@@ -157,16 +162,18 @@ class MC():
                     DP += int(card)
                 Your_Hand.append(DDraw)
                 print(f"The Dealer drew a {DDraw}")
+                time.sleep(0.75)
+                print(f"The dealer has {DP} points.")
                 time.sleep(1)
             if done == False:
                 print(f"The Dealer has {DP} points")
             time.sleep(1)
             if DP > 21:
-                print(f"The dealer busts, you WIN ${gamble}!!!")
+                print(f"The dealer busts, you WIN ${gamble*(1+self.level*0.025)}!!!")
                 win = True
-            elif 21 > YP > DP:
+            elif 21 > YP > DP or YP == 21 and DP != 21:
                 time.sleep(1)
-                print("YOU WIN!!!")
+                print(f"YOU WIN {gamble*(1+self.level*0.025)}!!!")
                 win = True
             elif 22 > DP > YP:
                 time.sleep(1)
@@ -174,12 +181,27 @@ class MC():
             elif DP == YP:
                 time.sleep(1)
                 print("PUSH!!! YOU TIE WITH THE DEALER!!!")
+                Tie == True
             if win == True:
-                self.money += gamble
+                self.money += (gamble*(1+self.level*0.025))
+            elif Tie == True:
+                print("No money lost, no money won")
             else:
                 self.money -= gamble
+            time.sleep(0.75)
             print(f"You now have ${self.money}.")
+            time.sleep(0.75)
 
+            if win == True:
+                self.exp += 0.5*gamble
+                print(f"You gained {(0.5*gamble)} exp!")
+            elif Tie == True:
+                self.exp += 0.25*gamble
+                print(f"You gained {(0.25*gamble)} exp!")
+            else:
+                self.exp += 0.1*gamble
+                print(f"You gained {(0.1*gamble)} exp!")
+            self.lvup()
             ag = False
             while ag == False:
                 again = input("Do you wanna go again? (y/n)")
@@ -187,8 +209,11 @@ class MC():
                     print("Invalid input, (y/n)")
                 else:
                     ag = True
-            if again == "y":
+            if again == "y" and self.money > 0:
                 re = True
+            elif again == "y" and self.money == 0:
+                print("Bro you got no more money, maybe go to the loan sharks!")
+                re == False
             else:
                 re = False
             
