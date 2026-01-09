@@ -66,6 +66,7 @@ while gamblechoice == "L" or gamblechoice == "M" or gamblechoice == "R" or gambl
                 print(f"You won!!! You gained ${left_machine_win_money}. {Newgambler.name}'s wallet now has ${Newgambler.money}.")
             if random.random() > ICantStopWinning:
                 ICantStopWinning += 0.125
+                time.sleep(3)
 
         if middle_machine.win_chance >= middle_machine_win_rate:
             ICantStopWinning = 0.1
@@ -96,6 +97,14 @@ while gamblechoice == "L" or gamblechoice == "M" or gamblechoice == "R" or gambl
             left_machine.times_used += 1
             Newgambler.times_used += 1
             left_machine.money +=1
+            print(f"{Newgambler.name} used the left slot machine. {Newgambler.name}'s balance is now {Newgambler.money}!")
+            time.sleep(3)
+
+            time.sleep(3)
+
+            time.sleep(3)
+
+
 
         if gamblechoice == "M":
             Newgambler.money -= 1
@@ -115,7 +124,7 @@ while gamblechoice == "L" or gamblechoice == "M" or gamblechoice == "R" or gambl
 
         if gamblechoice == "A":
             print("Type 'B' to check your balance, 'LI' to check the information of the left slot machine, 'MI' to check the middle slot machine's information, and 'RI' to check the right slot machine")
-            time.sleep(3.27)
+            time.sleep(3)
 
         if gamblechoice == "B":
             Newgambler.show_status()
