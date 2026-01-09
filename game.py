@@ -10,13 +10,8 @@ class class_base:
 
 class Person(class_base):
     def __init__(self, name, money, useage, lost, gained):
-        super().__init__(name, money, useage, lost, gained)
+        super().__init__(name, money, useage, lost)
         self.stonks = gained
-
-    def play(self, machinetype):
-        self.money += 10
-        self.gamble = f"{self.name} used the {machinetype}. {self.name}'s balance is now {self.money}!"
-        print(self.gamble)
 
     def show_status(self):
         print(f"Name: {self.name}  Balance: {self.money}  Times Gambled: {self.times_used}  Money Earned: {self.stonks}  Money Lost: {self.moneygiven}")
@@ -32,28 +27,27 @@ class Slot_Machine(class_base):
 newgamblername = input("Name yourself: ")
 balance = random.randint(45, 100)
 Newgambler = Person(newgamblername, balance, 0, 0, 0)
-Newgambler.play("fetch")
 print(f"{newgamblername} enters a casino with only ${balance} to their name.")
-time.sleep(3.2)
+time.sleep(2.4)
 print("In the casino, there are 3 slot machines. One on the left, one on the right, and one in the middle.")
-time.sleep(3)
+time.sleep(2.87)
 gamblechoice = input("What would you like to do? (Type 'L' to use the left machine, 'M' to use the one in the middle, 'R' to use the right machine, 'A' for additional options, and anything else (besides the additional options) to leave the casino.) ")
 
 
-left_machine = Slot_Machine("Left Slot Machine", 0, random.randint(0, 34), 0, 0)
+left_machine = Slot_Machine("Left Slot Machine", 0, 0, 0, random.randint(0, 34))
 left_machine_win_money = 30
 left_machine_win_rate = 35
 
-middle_machine = Slot_Machine("Middle Slot Machine", 0, random.randint(0, 99), 0, 0)
+middle_machine = Slot_Machine("Middle Slot Machine", 0, 0, 0, random.randint(0, 99))
 middle_machine_win_money = 60
 middle_machine_win_rate = 100
 
-right_machine = Slot_Machine("Right Slot Machine", 0, random.randint(0, 9), 0, 0)
+right_machine = Slot_Machine("Right Slot Machine", 0, 0, 0, random.randint(0, 9))
 right_machine_win_money = 9
 right_machine_win_rate = 10
 
 
-while gamblechoice == "L" or gamblechoice == "M" or gamblechoice == "R" or gamblechoice == "A" or gamblechoice == "B" or gamblechoice == "LI" or gamblechoice == "MI" or gamblechoice == "RI":
+while gamblechoice == "L" or gamblechoice == "M" or gamblechoice == "R" or gamblechoice == "A" or gamblechoice == "S" or gamblechoice == "LI" or gamblechoice == "MI" or gamblechoice == "RI":
     while Newgambler.money > 0:
         if left_machine.win_chance >= left_machine_win_rate:
             ICantStopWinning = 0.1
@@ -63,10 +57,12 @@ while gamblechoice == "L" or gamblechoice == "M" or gamblechoice == "R" or gambl
                 left_machine.moneygiven += left_machine_win_money
                 left_machine.win_chance -= left_machine_win_rate
                 left_machine.win_chance / 2
+                time.sleep(1)
                 print(f"You won!!! You gained ${left_machine_win_money}. {Newgambler.name}'s wallet now has ${Newgambler.money}.")
             if random.random() > ICantStopWinning:
                 ICantStopWinning += 0.125
-                time.sleep(3)
+                time.sleep(0.85)
+                print(f"....You lost. {Newgambler.name}'s wallet did not change.")
 
         if middle_machine.win_chance >= middle_machine_win_rate:
             ICantStopWinning = 0.1
@@ -78,6 +74,8 @@ while gamblechoice == "L" or gamblechoice == "M" or gamblechoice == "R" or gambl
                 print(f"You won!!! You gained ${middle_machine_win_money}. {Newgambler.name}'s wallet now has ${Newgambler.money}.")
             elif random.random() > ICantStopWinning:
                 ICantStopWinning += 0.125
+                time.sleep(0.85)
+                print(f"....You lost. {Newgambler.name}'s wallet did not change.")
 
         if right_machine.win_chance >= right_machine_win_rate:
             ICantStopWinning = 0.1
@@ -89,6 +87,8 @@ while gamblechoice == "L" or gamblechoice == "M" or gamblechoice == "R" or gambl
                 print(f"You won!!! You gained ${right_machine_win_money}. {Newgambler.name}'s wallet now has ${Newgambler.money}.")
             elif random.random() > ICantStopWinning:
                 ICantStopWinning += 0.125
+                time.sleep(0.85)
+                print(f"....You lost. {Newgambler.name}'s wallet did not change.")
 
         if gamblechoice == "L":
             Newgambler.money -= 1
@@ -97,13 +97,17 @@ while gamblechoice == "L" or gamblechoice == "M" or gamblechoice == "R" or gambl
             left_machine.times_used += 1
             Newgambler.times_used += 1
             left_machine.money +=1
-            print(f"{Newgambler.name} used the left slot machine. {Newgambler.name}'s balance is now {Newgambler.money}!")
-            time.sleep(3)
-
-            time.sleep(3)
-
-            time.sleep(3)
-
+            print(f"You used the left slot machine. {Newgambler.name}'s balance is now {Newgambler.money}!")
+            time.sleep(0.5)
+            print(".")
+            time.sleep(0.3)
+            print("..")
+            time.sleep(0.2)
+            print("...")
+            if left_machine.win_chance < left_machine_win_rate:
+                time.sleep(0.85)
+                print(f"....You lost. {Newgambler.name}'s wallet did not change.")
+            gamblechoice = input("What would you like to do? (Type 'L' to use the left machine, 'M' to use the one in the middle, 'R' to use the right machine, 'A' for additional options, and anything else (besides the additional options) to leave the casino.) ")
 
 
         if gamblechoice == "M":
@@ -113,6 +117,17 @@ while gamblechoice == "L" or gamblechoice == "M" or gamblechoice == "R" or gambl
             middle_machine.times_used += 1
             Newgambler.times_used += 1
             middle_machine.money +=1
+            print(f"You used the middle slot machine. {Newgambler.name}'s balance is now {Newgambler.money}!")
+            time.sleep(0.5)
+            print(".")
+            time.sleep(0.3)
+            print("..")
+            time.sleep(0.2)
+            print("...")
+            if middle_machine.win_chance < middle_machine_win_rate:
+                time.sleep(0.85)
+                print(f"....You lost. {Newgambler.name}'s wallet did not change.")
+            gamblechoice = input("What would you like to do? (Type 'L' to use the left machine, 'M' to use the one in the middle, 'R' to use the right machine, 'A' for additional options, and anything else (besides the additional options) to leave the casino.) ")
 
         if gamblechoice == "R":
             Newgambler.money -= 1
@@ -121,28 +136,53 @@ while gamblechoice == "L" or gamblechoice == "M" or gamblechoice == "R" or gambl
             right_machine.times_used += 1
             Newgambler.times_used += 1
             right_machine.money +=1
+            print(f"You used the right slot machine. {Newgambler.name}'s balance is now {Newgambler.money}!")
+            time.sleep(0.5)
+            print(".")
+            time.sleep(0.3)
+            print("..")
+            time.sleep(0.2)
+            print("...")
+            if right_machine.win_chance >= right_machine_win_rate:
+                time.sleep(0.85)
+                print(f"....You lost. {Newgambler.name}'s wallet did not change.")
+            gamblechoice = input("What would you like to do? (Type 'L' to use the left machine, 'M' to use the one in the middle, 'R' to use the right machine, 'A' for additional options, and anything else (besides the additional options) to leave the casino.) ")
 
         if gamblechoice == "A":
-            print("Type 'B' to check your balance, 'LI' to check the information of the left slot machine, 'MI' to check the middle slot machine's information, and 'RI' to check the right slot machine")
+            print("Type 'S' to check your stats, 'LI' to check the information of the left slot machine, 'MI' to check the middle slot machine's information, and 'RI' to check the right slot machine")
             time.sleep(3)
+            gamblechoice = input("What would you like to do? (Type 'L' to use the left machine, 'M' to use the one in the middle, 'R' to use the right machine, 'A' for additional options, and anything else (besides the additional options) to leave the casino.) ")
 
-        if gamblechoice == "B":
+        if gamblechoice == "S":
             Newgambler.show_status()
+            time.sleep(2)
+            gamblechoice = input("What would you like to do? (Type 'L' to use the left machine, 'M' to use the one in the middle, 'R' to use the right machine, 'A' for additional options, and anything else (besides the additional options) to leave the casino.) ")
+
         if gamblechoice == "LI":
             left_machine.display_info()
+            time.sleep(0.9)
+            gamblechoice = input("What would you like to do? (Type 'L' to use the left machine, 'M' to use the one in the middle, 'R' to use the right machine, 'A' for additional options, and anything else (besides the additional options) to leave the casino.) ")
+
         if gamblechoice == "MI":
             middle_machine.display_info()
+            time.sleep(0.9)
+            gamblechoice = input("What would you like to do? (Type 'L' to use the left machine, 'M' to use the one in the middle, 'R' to use the right machine, 'A' for additional options, and anything else (besides the additional options) to leave the casino.) ")
+
         if gamblechoice == "RI":
             right_machine.display_info()
-        gamblechoice = input("What would you like to do? (Type 'L' to use the left machine, 'M' to use the one in the middle, 'R' to use the right machine, 'A' for additional options, and anything else (besides the additional options) to leave the casino.) ")
+            time.sleep(0.9)
+            gamblechoice = input("What would you like to do? (Type 'L' to use the left machine, 'M' to use the one in the middle, 'R' to use the right machine, 'A' for additional options, and anything else (besides the additional options) to leave the casino.) ")
 
-if Newgambler.money == 0:
-    print("Your balance reached 0. You are now broke!")
-if Newgambler.money < 0:
-    print(f"Your balance reached {Newgambler.money}. You are in debt!")
-if Newgambler.money > 0:
-    if gamblechoice != "L" and gamblechoice != "M" and gamblechoice != "R" and gamblechoice != "A" and gamblechoice != "B" and gamblechoice != "LI" and gamblechoice != "MI" and gamblechoice != "RI":
-        print(f"You were financially responsible!. You left the casino with ${Newgambler.money}!")
+    if Newgambler.money == 0:
+        print("Your balance reached 0. You are now broke!")
+    if Newgambler.money < 0:
+        print(f"Your balance reached {Newgambler.money}. You are in debt!")
+
+    if gamblechoice != "L" and gamblechoice != "M" and gamblechoice != "R" and gamblechoice != "A" and gamblechoice != "S" and gamblechoice != "LI" and gamblechoice != "MI" and gamblechoice != "RI":
+        gamblechoice = "test"
+    if gamblechoice == "test":
+        if Newgambler.money > 0:
+            print(f"You were financially responsible! You left the casino with ${Newgambler.money}!")
 
 
 
