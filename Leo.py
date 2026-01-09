@@ -2,7 +2,7 @@ import random
 import time
 
 class MC():
-    def __init__(self, name, klass, health, defense, strength, mana, speed, money, level, inv, exp, attacktype):
+    def __init__(self, name, klass, health, defense, strength, mana, speed, money, level, inv, exp, attacktype, debt):
         self.klass = klass
         self.name = name
         self.health = health
@@ -15,6 +15,7 @@ class MC():
         self.inv = inv
         self.exp = exp
         self.attacktype = attacktype
+        self.debt = debt
 
     def stats(self):
         print("Your stats:")
@@ -27,6 +28,7 @@ class MC():
         print(f"Speed ~ {self.speed*spd}")
         print(f"Level ~ {self.level}")
         print(f"Money ~ {self.money}")
+        print(f"Debt ~ {self.debt}")
         print(f"Inventory ~ {self.inv}")
 
     def lvup(self):
@@ -43,10 +45,67 @@ class MC():
             print(f"You're now level {self.level}")
         print(f"Exp: {self.exp}/{Req}")
 
+    def loan(self):
+        global interest
+        print("Loan interest rates:")
+        print("Loans less than 10k ~ 10% interest")
+        print("Loans 10k or more ~ 15% interest")
+        print("Loans 50k or more ~ 20% interest")
+        print("Loans 100k or more ~ 25% interest")
+        print("Loans 500k or more ~ 35% interest")
+        LV = False
+        while LV == False:
+            loan = input("How much money do you want?")
+            if not loan.isdigit():
+                print("Invalid input! Input how much you want!")
+            else:
+                loan = int(loan)
+                if loan <= 0:
+                    print(f"Invalid amount!")
+                elif loan < 10000:
+                    interest = 1.1
+                    LV = True
+                elif 50000 > loan >= 10000:
+                    interest = 1.15
+                    LV = True
+                elif 100000 > loan >= 50000:
+                    interest = 1.2
+                    LV = True
+                elif 500000 > loan >= 100000:
+                    interest = 1.25
+                    LV = True
+                else:
+                    interest = 1.35
+                    LV = True
+            print(f"Okay, here you go.")
+            self.money += loan
+            time.sleep(1)
+            print("Now go back and win your money!")
+            self.debt += (loan * interest)
+    
+
+    def debtcheck(self):
+        if self.money > self.debt:
+            loans = False
+            while loans == False:
+                decision = input("You have enough to pay off your loan shark debt! Do you want to? (y/n)")
+                if decision.lower() not in ["y","n"]:
+                    print("Invalid input, (y/n)")
+                elif decision.lower() == "y":
+                    self.money -= self.debt
+                    self.debt = 0
+                else:
+                    self.debt *= interest
+                    print(f"Your debt is now {self.debt}! Should've paid it off sooner!")
+                    
+
+            
+
+
     def gamble(self):
         re = True
         while re == True:
-            re == False
+            re = False
             CI = False
             while CI == False:
                 gamble = input("How much money do you want to bet?")
@@ -104,7 +163,7 @@ class MC():
                 DP += 10
             elif Dcard == "A":
                 if DP+11 > 21:
-                    YP += 1
+                    DP += 1
                 else:
                     DP += 11
             elif Dcard in "23456789":
@@ -160,7 +219,7 @@ class MC():
                         DP += 11
                 elif card in "23456789":
                     DP += int(card)
-                Your_Hand.append(DDraw)
+                Dealer_Hand.append(DDraw)
                 print(f"The Dealer drew a {DDraw}")
                 time.sleep(0.75)
                 print(f"The dealer has {DP} points.")
@@ -181,7 +240,7 @@ class MC():
             elif DP == YP:
                 time.sleep(1)
                 print("PUSH!!! YOU TIE WITH THE DEALER!!!")
-                Tie == True
+                Tie = True
             if win == True:
                 self.money += (gamble*(1+self.level*0.025))
             elif Tie == True:
@@ -201,7 +260,7 @@ class MC():
             else:
                 self.exp += 0.1*gamble
                 print(f"You gained {(0.1*gamble)} exp!")
-            self.lvup()
+
             ag = False
             while ag == False:
                 again = input("Do you wanna go again? (y/n)")
@@ -213,9 +272,21 @@ class MC():
                 re = True
             elif again == "y" and self.money == 0:
                 print("Bro you got no more money, maybe go to the loan sharks!")
-                re == False
+                loans = False
+                while loans == False:
+                    loan = input("Do you want to go to the loan sharks? (y/n)")
+                    if loan.lower() not in ["y","n"]:
+                        print("Invalid input, (y/n)")
+                    elif loan.lower() == "y":
+                        loans = True
+                        self.loan()
+                    else:
+                        loans = True
+                    re == True
             else:
                 re = False
+            if self.debt() > 0:
+                self.debtcheck()
             
                     
                 
@@ -330,8 +401,13 @@ if klass == "Tank":
 print(f"Okay, your class is {klass}")
 Name = input("Choose your name")
 print(f"Okay, your name is {Name}")
-you = MC(Name, klass, 100, 10, 10, 10, 10, 1000, 1, [], 0, "attacktypeph")
+you = MC(Name, klass, 100, 10, 10, 10, 10, 1000, 1, [], 0, "attacktypeph", 0)
+
+
+
+
 you.gamble()
+
 """ you.stats()
 print("You wake up to an empty house, your wife and kids have been stolen by the corrupt government")
 print("Your main mission: Save your wife and kids by adventuring out and confronting Bart, the king")
