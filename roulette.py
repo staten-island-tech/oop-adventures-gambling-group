@@ -15,7 +15,9 @@ class Roulette:
 5. Five number bet
 6. Six number bet
 7. Dozen bet
-8. Red/Black                                                                                                            
+8. Red/Black
+9. 18 number bet
+10. Odd/Even bet                                                                                                        
 """)
             if choose == "1":
                 self.single_number()
@@ -40,6 +42,12 @@ class Roulette:
                 again5 = False         
             elif choose == "8":
                 self.red_black()
+                again5 = False
+            elif choose == "9":
+                self.half_numbers()
+                again5 = False
+            elif choose == "10":
+                self.odd_even
                 again5 = False
             else:
                 print("Invalid option, you must choose a number.")
@@ -94,7 +102,7 @@ class Roulette:
             break
 
         spins = random.randint(74,111)
-        raterate = 1.00008
+        raterate = 1.00005
         rate = 1.0075
         x = 0.07
         for i in range(spins):
@@ -162,7 +170,7 @@ class Roulette:
                 continue
             numbers.append(gamble)
         spins = random.randint(111,148)
-        raterate = 1.00008
+        raterate = 1.00005
         rate = 1.0075
         x = 0.07
         for i in range(spins):
@@ -230,7 +238,7 @@ class Roulette:
                 continue
             numbers.append(gamble)
         spins = random.randint(111,148)
-        raterate = 1.00008
+        raterate = 1.00005
         rate = 1.0075
         x = 0.07
         for i in range(spins):
@@ -298,7 +306,7 @@ class Roulette:
                 continue
             numbers.append(gamble)
         spins = random.randint(111,148)
-        raterate = 1.00008
+        raterate = 1.00005
         rate = 1.0075
         x = 0.07
         for i in range(spins):
@@ -366,7 +374,7 @@ class Roulette:
                 continue
             numbers.append(gamble)
         spins = random.randint(111,148)
-        raterate = 1.00008
+        raterate = 1.00005
         rate = 1.0075
         x = 0.07
         for i in range(spins):
@@ -427,14 +435,14 @@ class Roulette:
                 continue
             gamble = int(gamble)
             if gamble < 1 or gamble > 36:
-                print("Invalid number. Try again, 0-36.")
+                print("Invalid number. Try again, 1-36.")
                 continue
             if gamble in numbers:
                 print("You already chose that number. Choose another.")
                 continue
             numbers.append(gamble)
         spins = random.randint(111,148)
-        raterate = 1.00008
+        raterate = 1.00005
         rate = 1.075
         x = 0.07
         for i in range(spins):
@@ -504,7 +512,7 @@ class Roulette:
                 continue
             break
         spins = random.randint(111,148)
-        raterate = 1.00008
+        raterate = 1.00005
         rate = 1.0075
         x = 0.07
         for i in range(spins):
@@ -635,7 +643,7 @@ class Roulette:
                 continue
             break
         spins = random.randint(111,148)
-        raterate = 1.00008
+        raterate = 1.00005
         rate = 1.0075
         x = 0.07
         for i in range(spins):
@@ -659,13 +667,93 @@ class Roulette:
 2. Play a different game
 """)
             if again_ask == "1":
-                return self.dozen_bet()
+                return self.half_numbers()
             elif again_ask.lower() == "2":
                 self.home_page()
                 return
             else:
                 print("Invalid option. (1/2)")
                 continue
+
+    def odd_even(self):
+        wheel = [
+                "0G",
+                "1R", "2B", "3R", "4B", "5R", "6B",
+                "7R", "8B", "9R", "10B", "11B", "12R",
+                "13B", "14R", "15B", "16R", "17B", "18R",
+                "19R", "20B", "21R", "22B", "23R", "24B",
+                "25R", "26B", "27R", "28B", "29B", "30R",
+                "31B", "32R", "33B", "34R", "35B", "36R"
+                ]
+        while True:
+            bet = input("How much do you want to bet? ")
+            if not bet.isdigit():
+                print("Error. Invalid input, must be an integer. Try again")
+                continue
+            bet = int(bet)
+            if bet > self.balance or bet < 1:
+                print("Invalid bet amount")
+                continue
+            break
+        numbers = []
+        while True:
+            gamble = input("""Choose your half:
+1. 1-18
+2. 19-36
+""")
+            if gamble == "1":
+                break
+            elif gamble == "2":
+                break
+            else:
+                print("Invalid option, you must choose a number.")
+                continue
+        spins = random.randint(111,148)
+        raterate = 1.00005
+        rate = 1.0075
+        x = 0.07
+        for i in range(spins):
+            x *= rate
+            rate *= raterate
+            print(wheel[i % 37])
+            time.sleep(x)
+            if i >= spins - 6:
+                raterate *=1.08
+        number = wheel[(spins - 1) % 37]
+        if number == "0G":
+            win = False
+        else:
+            value = int(number[:-1])
+            num = value % 2
+            if num == 1 and gamble.lower() == "odd":
+                win = True
+            elif num == 0 and gamble.lower() == "even":
+                win = True
+            else:
+                win = False
+
+        if win == True:
+            self.balance += bet
+            print(f"Congrats! You bet ${bet} and won ${bet}")
+        else:
+            print(f"Unfortunately you lost ${bet}")
+            self.balance -= bet
+        self.broke()
+        while True:
+            again_ask = input(f"""Your balance is now ${self.balance}, choose an option:
+1. Play again
+2. Play a different game
+""")
+            if again_ask == "1":
+                return self.odd_even()
+            elif again_ask.lower() == "2":
+                self.home_page()
+                return
+            else:
+                print("Invalid option. (1/2)")
+                continue
+
+
 game = Roulette(10000)            
 game.home_page()
             
