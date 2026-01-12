@@ -28,22 +28,22 @@ newgamblername = input("Name yourself: ")
 balance = random.randint(45, 100)
 Newgambler = Person(newgamblername, balance, 0, 0, 0)
 print(f"{newgamblername} enters a casino with only ${balance} to their name.")
-time.sleep(2.4)
+time.sleep(2.15)
 print("In the casino, there are 3 slot machines. One on the left, one on the right, and one in the middle.")
 time.sleep(2.87)
 gamblechoice = input("What would you like to do? (Type 'L' to use the left machine, 'M' to use the one in the middle, 'R' to use the right machine, 'A' for additional options, and anything else (besides the additional options) to leave the casino.) ")
 
 left_machine = Slot_Machine("Left Slot Machine", 0, 0, 0, random.randint(0, 34))
 left_machine_win_money = 30
-left_machine_win_rate = 35
+left_machine_win_rate = 65
 
 middle_machine = Slot_Machine("Middle Slot Machine", 0, 0, 0, random.randint(0, 99))
 middle_machine_win_money = 60
-middle_machine_win_rate = 100
+middle_machine_win_rate = 250
 
 right_machine = Slot_Machine("Right Slot Machine", 0, 0, 0, random.randint(0, 9))
 right_machine_win_money = 9
-right_machine_win_rate = 10
+right_machine_win_rate = 25
 
 while Newgambler.money > 0:
     while gamblechoice == "L" or gamblechoice == "M" or gamblechoice == "R" or gamblechoice == "A" or gamblechoice == "S" or gamblechoice == "LI" or gamblechoice == "MI" or gamblechoice == "RI":
@@ -173,12 +173,13 @@ while Newgambler.money > 0:
 
     if gamblechoice != "L" and gamblechoice != "M" and gamblechoice != "R" and gamblechoice != "A" and gamblechoice != "S" and gamblechoice != "LI" and gamblechoice != "MI" and gamblechoice != "RI":
         gamblechoice = "test"
-    if gamblechoice == "test":
+    if gamblechoice == "test" and Newgambler.money > 0 and Newgambler.money != 0:
         print(f"You were financially responsible! You left the casino with ${Newgambler.money}!")
-        gamblechoice = "test"
+        gamblechoice = "est"
+        Newgambler.money = -1
 if Newgambler.money == 0:
     print("Your balance reached 0. You are now broke!")
-if Newgambler.money < 0:
+if Newgambler.money < 0 and gamblechoice != "est":
     print(f"Your balance reached {Newgambler.money}. You are in debt!")
 
 
