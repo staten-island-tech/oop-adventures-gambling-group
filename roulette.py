@@ -47,7 +47,7 @@ class Roulette:
                 self.half_numbers()
                 again5 = False
             elif choose == "10":
-                self.odd_even
+                self.odd_even()
                 again5 = False
             else:
                 print("Invalid option, you must choose a number.")
@@ -654,7 +654,7 @@ class Roulette:
             if i >= spins - 6:
                 raterate *=1.08
         number = wheel[(spins - 1) % 37]       
-        if number[:-1] in numbers:
+        if int(number[:-1]) in numbers:
             self.balance += bet
             print(f"Congrats! You bet ${bet} and won ${bet}")
         else:
@@ -695,18 +695,15 @@ class Roulette:
                 print("Invalid bet amount")
                 continue
             break
-        numbers = []
         while True:
-            gamble = input("""Choose your half:
-1. 1-18
-2. 19-36
+            gamble = input("""Choose Odd or Even
 """)
-            if gamble == "1":
+            if gamble.lower() == "even":
                 break
-            elif gamble == "2":
+            elif gamble.lower() == "odd":
                 break
             else:
-                print("Invalid option, you must choose a number.")
+                print("Invalid option, you must choose odd or even")
                 continue
         spins = random.randint(111,148)
         raterate = 1.00005
