@@ -251,7 +251,7 @@ class MC():
             time.sleep(0.75)
             print(f"You now have ${self.money}.")
             time.sleep(0.75)
-
+            you.lvup
             if win == True:
                 self.exp += 0.5*gamble
                 print(f"You gained {(0.5*gamble)} exp!")

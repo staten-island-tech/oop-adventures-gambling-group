@@ -1207,11 +1207,11 @@ class MC():
 
         
         
-
+""" 
 
 you = MC(player.balance, 1, 0, 0)
 you.gamble()
-
+ """
 """ you.stats()
 print("You wake up to an empty house, your wife and kids have been stolen by the corrupt government")
 print("Your main mission: Save your wife and kids by adventuring out and confronting Bart, the king")
